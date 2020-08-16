@@ -1,31 +1,77 @@
-<html>
-    <head>
-        {% if title %}
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% if title %}
         <title>{{ title }} - microblog</title>
-        {% else %}
-        <title>Welcome to my microblog!</title>
-        {% endif %}
-    </head>
-    <body>
-        <div>Microblog:
-            <a href="{{ url_for('index') }}">Home</a>
-            {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Login</a>
-            {% else %}
-            <a href="{{ url_for('logout') }}">Logout</a>
-            {% endif %}
-        </div>
-        <hr>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
+    {% else %}
+        <title>Plataforma Masterdata</title>
+    {% endif %}
+
+    <!-- JavaScript y CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+
+
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark navbar-expand-sm fixed-top justify-content-between">
+    <!-- Links -->
+    <ul class="navbar-nav">
+        <a class="navbar-brand" href="#">MasterData</a>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('ingresar_datos') }}">Ingresar Datos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Modificar Datos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link">Ver próximos ceses</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Ver próximas renovaciones</a>
+        </li>
+    </ul>
+    <div id="usuarioAnonimo">
+        <a class="btn btn-info">Iniciar Sesión</a>
+    </div>
+    <div class="form-inline" id="usuarioAutenticado">
+        <span class="navbar-text mx-2">
+            Bienvenido
+        </span>
+        <form method="post">
+            <button type="submit" class="btn btn-info">Cerrar sesión</button>
+        </form>
+    </div>
+</nav>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
         <ul>
             {% for message in messages %}
-            <li>{{ message }}</li>
+                <li>{{ message }}</li>
             {% endfor %}
         </ul>
-        {% endif %}
-        {% endwith %}
+    {% endif %}
+{% endwith %}
 
-        {% block content %}{% endblock %}
-    </body>
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+</body>
+
 </html>

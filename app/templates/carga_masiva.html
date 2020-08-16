@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Carga Masiva</h1>
+    <form action="" method="post" class="mt-3" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.archivo_excel.label }} {{ form.archivo_excel(class_="form-control-file") }}
+        </div>
+        {{ form.submit(class_="btn btn-primary") }}
+    </form>
+
+{% endblock %}

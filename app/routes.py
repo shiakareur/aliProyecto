@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for
 from app import app
-from app.forms import LoginForm
+from app.forms import LoginForm, IngresarDatosForm, CargaMasivaForm
 from flask_login import current_user, login_user
 from models.Usuario import Usuario
 from flask_login import logout_user
@@ -46,7 +46,20 @@ def login():
 
     return render_template('login.html', title='Sign In', form=form)
 
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/ingresar_datos')
+def ingresar_datos():
+    form = IngresarDatosForm()
+    return render_template('ingresar_datos.html', form=form)
+
+
+@app.route('/carga_masiva')
+def carga_masiva():
+    form = CargaMasivaForm()
+    return render_template('carga_masiva.html', form=form)

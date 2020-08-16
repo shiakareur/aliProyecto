@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Ingresar datos</h1>
+    <a class="btn btn-primary" href="{{ url_for('carga_masiva') }}">Carga masiva</a>
+    <form action="" method="post" class="mt-3">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.codigo.label }} {{ form.codigo(class_="form-control") }}
+        </div>
+    </form>
+
+{% endblock %}
