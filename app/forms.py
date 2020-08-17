@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateTimeField, IntegerField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
+from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired
 from flask_wtf.file import FileField, FileRequired
 
@@ -20,17 +21,22 @@ class IngresarDatosForm(FlaskForm):
     apellido_materno = StringField('Apellido Materno', validators=[DataRequired()])
     planta = SelectField('Planta')
     genero = SelectField('Género', choices=[('M', 'Masculino'), ('F', 'Femenino')], validators=[DataRequired()])
-    fecha_inicio = DateTimeField('Fecha inicio', validators=[DataRequired()])
-    fecha_nacimiento = DateTimeField('Fecha nacimiento', validators=[DataRequired()])
+    fecha_inicio = DateField('Fecha inicio', validators=[DataRequired()])
+    fecha_nacimiento = DateField('Fecha nacimiento', validators=[DataRequired()])
     correo = StringField('Correo', validators=[DataRequired()])
     dni = StringField('DNI', validators=[DataRequired()])
     telefono = StringField('Teléfono', validators=[DataRequired()])
     direccion = StringField('Dirección', validators=[DataRequired()])
-    Hijos = IntegerField('Número de hijos', validators=[DataRequired()])
-    submit = SubmitField('Ingresar Datos')
+    hijos = IntegerField('Número de hijos', validators=[DataRequired()])
+    submit = SubmitField('Enviar datos')
 
 
 class CargaMasivaForm(FlaskForm):
     archivo_excel = FileField('Cargar archivo Excel', validators=[FileRequired()])
-    submit = SubmitField('Carga masiva')
+    submit = SubmitField('Cargar archivo')
 
+
+class SeleccionarFechasForm(FlaskForm):
+    fecha_inicio = DateField('Seleccionar fecha inicio', validators=[DataRequired()])
+    fecha_fin = DateField('Seleccionar fecha fin', validators=[DataRequired()])
+    submit = SubmitField('Buscar')
