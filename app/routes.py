@@ -3,6 +3,8 @@ from app import app
 from app.forms import LoginForm, IngresarDatosForm, CargaMasivaForm, SeleccionarFechasForm
 from flask_login import current_user, login_user
 from models.Usuario import Usuario
+from models.Persona import Persona
+from models.Informacion import Informacion
 from flask_login import logout_user
 from flask_login import login_required
 from flask import request
@@ -74,10 +76,20 @@ def proximos_ceses_tabla():
 def proximas_renovaciones():
     form = SeleccionarFechasForm()
     if form.validate_on_submit():
-        return redirect(url_for('proximas_renovaciones_tabla'))
+        return redirect(url_for('proximas_renovaciones_tabla',
+                                fecha_inicio=form.fecha_inicio.data,
+                                fecha_fin=form.fecha_fin.data))
     return render_template('proximas_renovaciones.html', form=form, title='Próximas renovaciones')
 
 
 @app.route('/proximas_renovaciones_tabla')
 def proximas_renovaciones_tabla():
-    return render_template('proximas_renovaciones_tabla.html')
+    f_inicio_renovacion = request.args.get('fecha_inicio')
+    f_fin_renovacion = request.args.get('fecha_fin')
+    l_prox_renovaciones = Informacion.query.join(Persona).add_columns(Persona.codigo, Persona.nombres,
+                                                                      Persona.apellido_paterno,
+                                                                      Persona.apellido_materno).filter(
+        Informacion.fecha_renovacion >= f_inicio_renovacion).filter(
+        Informacion.fecha_renovacion <= f_fin_renovacion).all()
+    print(l_prox_renovaciones)
+    return render_template('proximas_renovaciones_tabla.html', l_prox_renovaciones=l_prox_renovaciones)
