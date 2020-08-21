@@ -12,6 +12,13 @@
         </tr>
         </thead>
         <tbody>
+        {% for persona in l_prox_ceses %}
+        <tr>
+            <td>{{ persona.codigo }}</td>
+            <td>{{ persona.nombres + ' ' + persona.apellido_paterno + ' ' + persona.apellido_materno }}</td>
+            <td>{{ persona.Informacion.fecha_fin.strftime('%d/%m/%Y') }}</td>
+        </tr>
+        {% endfor %}
         </tbody>
     </table>
 

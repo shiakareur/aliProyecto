@@ -39,18 +39,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('proximas_renovaciones') }}">Ver próximas renovaciones</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('systrack') }}">Systrack</a>
+            </li>
+
         </ul>
-        <div id="usuarioAnonimo">
-            <a class="btn btn-info">Iniciar Sesión</a>
-        </div>
-        <div class="form-inline" id="usuarioAutenticado">
-            <span class="navbar-text mx-2">
-                Bienvenido
-            </span>
-            <form method="post">
-                <button type="submit" class="btn btn-info">Cerrar sesión</button>
-            </form>
-        </div>
     </div>
 </nav>
 {% with messages = get_flashed_messages() %}

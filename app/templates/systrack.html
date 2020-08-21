@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Systrack</h1>
+    <form action="" method="post" class="mt-3">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.codigo.label }} {{ form.codigo(class_="form-control") }}
+        </div>
+        {{ form.submit(class_="btn btn-primary") }}
+    </form>
+
+{% endblock %}

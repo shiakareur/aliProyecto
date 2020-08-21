@@ -40,3 +40,7 @@ class SeleccionarFechasForm(FlaskForm):
     fecha_inicio = DateField('Seleccionar fecha inicio', validators=[DataRequired()])
     fecha_fin = DateField('Seleccionar fecha fin', validators=[DataRequired()])
     submit = SubmitField('Buscar')
+
+class BuscarCodigoForm(FlaskForm):
+    codigo = IntegerField('Buscar código', validators=[DataRequired()])
+    submit = SubmitField('Buscar')

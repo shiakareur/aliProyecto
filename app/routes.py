@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for
 from app import app
-from app.forms import LoginForm, IngresarDatosForm, CargaMasivaForm, SeleccionarFechasForm
+from app.forms import LoginForm, IngresarDatosForm, CargaMasivaForm, SeleccionarFechasForm, BuscarCodigoForm
 from flask_login import current_user, login_user
 from models.Usuario import Usuario
 from models.Persona import Persona
@@ -50,6 +50,25 @@ def ingresar_datos():
         pass
     return render_template('ingresar_datos.html', form=form, title='Ingresar Datos')
 
+@app.route('/systrack', methods=['GET', 'POST'])
+def systrack():
+    form = BuscarCodigoForm()
+    if form.validate_on_submit():
+        return redirect(url_for('systrack_resultado',
+                                codigo=form.codigo.data))
+    return render_template('systrack.html', form=form, title='Systrack')
+
+@app.route('/systrack_resultado')
+def systrack_resultado():
+    codigo = str(request.args.get('codigo'))
+    l_resultado = Informacion.query.join(Persona).add_columns(Persona.codigo, Persona.nombres,
+                                                                      Persona.apellido_paterno,
+                                                                      Persona.apellido_materno,
+                                                                      Informacion.estado,
+                                                                      Informacion.planta).filter(
+        Informacion.codigo_persona == codigo).first()
+    print(l_resultado)
+    return render_template('systrack_resultado.html',codigo=codigo, l_resultado=l_resultado)
 
 @app.route('/carga_masiva', methods=['GET', 'POST'])
 def carga_masiva():
@@ -63,13 +82,24 @@ def carga_masiva():
 def proximos_ceses():
     form = SeleccionarFechasForm()
     if form.validate_on_submit():
-        return redirect(url_for('proximos_ceses_tabla'))
+        return redirect(url_for('proximos_ceses_tabla',
+                                fecha_inicio=form.fecha_inicio.data,
+                                fecha_fin=form.fecha_fin.data))
     return render_template('proximos_ceses.html', form=form, title='Próximos ceses')
+
 
 
 @app.route('/proximos_ceses_tabla')
 def proximos_ceses_tabla():
-    return render_template('proximos_ceses_tabla.html')
+    f_inicio_cese = request.args.get('fecha_inicio')
+    f_fin_cese = request.args.get('fecha_fin')
+    l_prox_ceses = Informacion.query.join(Persona).add_columns(Persona.codigo, Persona.nombres,
+                                                                      Persona.apellido_paterno,
+                                                                      Persona.apellido_materno).filter(
+        Informacion.fecha_fin >= f_inicio_cese).filter(
+        Informacion.fecha_fin <= f_fin_cese).all()
+    print(l_prox_ceses)
+    return render_template('proximos_ceses_tabla.html', l_prox_ceses=l_prox_ceses)
 
 
 @app.route('/proximas_renovaciones', methods=['GET', 'POST'])
